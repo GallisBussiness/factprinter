@@ -99,58 +99,58 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-
-            <ul className="menu p-2 rounded-box w-80 bg-white">
-              <Link
-                to="/dashboard/users"
-                className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
-              >
-                UTILISATEURS
-              </Link>
-              <Link
-                to="/dashboard/facturations"
-                className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
-              >
-                FACTURATIONS
-              </Link>
-              <Link
-                to="/dashboard/clients"
-                className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
-              >
-                CLIENTS
-              </Link>
-              <Link
-                to="/dashboard/fournisseurs"
-                className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
-              >
-                FOURNISSEURS
-              </Link>
-              <Link
-                to="/dashboard/stocks"
-                className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
-              >
-                STOCKS
-              </Link>
-              <Link
-                to="/dashboard/produits"
-                className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
-              >
-                PRODUITS
-              </Link>
-              <Link
-                to="/dashboard/unites"
-                className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
-              >
-                UNITES
-              </Link>
-
+            <div className="bg-white w-80 flex flex-col items-center justify-between space-y-20 py-5">
+              <ul className="menu p-2 rounded-box bg-white w-full">
+                <Link
+                  to="/dashboard/users"
+                  className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
+                >
+                  UTILISATEURS
+                </Link>
+                <Link
+                  to="/dashboard/facturations"
+                  className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
+                >
+                  FACTURATIONS
+                </Link>
+                <Link
+                  to="/dashboard/clients"
+                  className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
+                >
+                  CLIENTS
+                </Link>
+                <Link
+                  to="/dashboard/fournisseurs"
+                  className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
+                >
+                  FOURNISSEURS
+                </Link>
+                <Link
+                  to="/dashboard/stocks"
+                  className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
+                >
+                  STOCKS
+                </Link>
+                <Link
+                  to="/dashboard/produits"
+                  className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
+                >
+                  PRODUITS
+                </Link>
+                <Link
+                  to="/dashboard/unites"
+                  className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
+                >
+                  UNITES
+                </Link>
+              </ul>
               <Button
                 onClick={logout}
-                className="bg-blue-500 hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
+                className="bg-blue-500 hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2 animate-pulse"
               >
                 SE DECONNECTER
               </Button>
-            </ul>
+            </div>
           </div>
         </div>
       </div>

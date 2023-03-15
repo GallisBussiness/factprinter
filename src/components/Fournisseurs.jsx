@@ -167,7 +167,7 @@ function Fournisseurs() {
                       Gestion des Fournisseurs
                     </h5>
                     <img
-                      className="relative z-20 w-32 pt-6 h-32"
+                      className="relative z-20 w-32 pt-6 h-32 animate-bounce"
                       src="/img/fournisseurs.png"
                       alt="Fournisseurs"
                     />
@@ -210,13 +210,13 @@ function Fournisseurs() {
               field="prenom"
               header="Prenom"
               sortable
-              style={{ minWidth: "14rem" }}
+              style={{ minWidth: "8rem" }}
             />
             <Column
               field="nom"
               header="Nom"
               sortable
-              style={{ minWidth: "14rem" }}
+              style={{ minWidth: "8rem" }}
             />
             <Column
               field="tel"

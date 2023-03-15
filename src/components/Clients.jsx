@@ -205,7 +205,7 @@ function Clients() {
                   <div className="flex items-center justify-center h-full">
                     <h5 className="font-bold text-3xl">Gestion des Clients</h5>
                     <img
-                      className="relative z-20 w-32 pt-6 h-32"
+                      className="relative z-20 w-32 pt-6 h-32 animate-bounce"
                       src="/img/clients.svg"
                       alt="Clients"
                     />
@@ -248,13 +248,13 @@ function Clients() {
               field="prenom"
               header="Prenom"
               sortable
-              style={{ minWidth: "14rem" }}
+              style={{ minWidth: "8rem" }}
             />
             <Column
               field="nom"
               header="Nom"
               sortable
-              style={{ minWidth: "14rem" }}
+              style={{ minWidth: "8rem" }}
             />
             <Column
               field="tel"

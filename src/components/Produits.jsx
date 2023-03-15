@@ -176,6 +176,19 @@ function Produits({ auth }) {
 
   const header = renderHeader();
 
+  const stockTemplate = (row) => {
+    const cls =
+      row.qteStock <= 100
+        ? "badge p-2 text-white bg-red-500"
+        : "badge p-2 text-white bg-green-500";
+    return (
+      <div className="text-center">
+        {" "}
+        <span className={cls}>{row.qteStock}</span>
+      </div>
+    );
+  };
+
   return (
     <>
       <div className="flex flex-wrap mt-6 -mx-3">
@@ -187,7 +200,7 @@ function Produits({ auth }) {
                   <div className="flex items-center justify-center h-full">
                     <h5 className="font-bold text-3xl">Gestion des Produits</h5>
                     <img
-                      className="relative z-20 w-32 pt-6 h-32"
+                      className="relative z-20 w-32 pt-6 h-32 animate-bounce"
                       src="/img/products.png"
                       alt="Produits"
                     />
@@ -233,8 +246,9 @@ function Produits({ auth }) {
               style={{ minWidth: "14rem" }}
             />
             <Column
-              field="pa"
-              header="Prix d'achat"
+              field="qteStock"
+              header="Quantité en Stock"
+              body={stockTemplate}
               sortable
               style={{ minWidth: "14rem" }}
             />
