@@ -61,14 +61,11 @@ function CreateventeModal({ isOpen, onResolve, onReject }) {
   const onCreate = (data) => {
     const { client, ventes, avance } = data;
     const avi = +avance;
-    const total = ventes.reduce(
-      (acc, cur) => acc + +cur.qte * +cur.produit.value.pv,
-      0
-    );
+    const total = ventes.reduce((acc, cur) => acc + +cur.qte * +cur.pv, 0);
     const venteDto = ventes.map((v) => ({
       qte: v.qte,
       produit: v.produit.value._id,
-      pv: v.produit.value.pv,
+      pv: v.pv,
     }));
     const fd = {
       ...data,

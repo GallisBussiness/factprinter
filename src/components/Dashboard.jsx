@@ -16,6 +16,15 @@ import Users from "./Users";
 import Vente from "./Vente";
 import VenteDetail from "./VenteDetail";
 import Ventes from "./Ventes";
+import {
+  FaAtom,
+  FaFileInvoice,
+  FaProductHunt,
+  FaStore,
+  FaUser,
+  FaUsers,
+} from "react-icons/fa";
+import { CiDeliveryTruck } from "react-icons/ci";
 
 const Dashboard = () => {
   const auth = useAuthUser()();
@@ -105,42 +114,47 @@ const Dashboard = () => {
                   to="/dashboard/users"
                   className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
                 >
-                  UTILISATEURS
+                  <FaUser className="inline text-green-600" /> UTILISATEURS
                 </Link>
                 <Link
                   to="/dashboard/facturations"
                   className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
                 >
+                  <FaFileInvoice className="inline text-blue-600" />{" "}
                   FACTURATIONS
                 </Link>
                 <Link
                   to="/dashboard/clients"
                   className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
                 >
-                  CLIENTS
+                  <FaUsers className="inline text-fuchsia-600" /> CLIENTS
                 </Link>
                 <Link
                   to="/dashboard/fournisseurs"
                   className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
                 >
+                  <CiDeliveryTruck className="inline text-yellow-700 h-6 w-6" />
                   FOURNISSEURS
                 </Link>
                 <Link
                   to="/dashboard/stocks"
                   className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
                 >
+                  <FaStore className="inline text-fuchsia-600" />
                   STOCKS
                 </Link>
                 <Link
                   to="/dashboard/produits"
                   className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
                 >
+                  <FaProductHunt className="inline text-green-500 h-6 w-6" />
                   PRODUITS
                 </Link>
                 <Link
                   to="/dashboard/unites"
                   className="bg-white hover:bg-orange-400 hover:text-white rounded-md shadow-md text-center py-2"
                 >
+                  <FaAtom className="inline text-blue-500 h-6 w-6" />
                   UNITES
                 </Link>
               </ul>

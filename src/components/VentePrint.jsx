@@ -56,8 +56,13 @@ export const VentePrint = forwardRef(({ vente }, ref) => {
 
               <div className="w-full flex flex-col justify-between">
                 <div className="my-5 mx-10 flex flex-col h-full">
-                  <Table withColumnBorders verticalSpacing="xs" fontSize="xs">
-                    <thead>
+                  <Table
+                    withColumnBorders
+                    verticalSpacing="xs"
+                    fontSize="xs"
+                    className="border border-solid border-black"
+                  >
+                    <thead className="border border-solid border-black">
                       <tr>
                         <th>QTE</th>
                         <th>Unite</th>
@@ -69,11 +74,21 @@ export const VentePrint = forwardRef(({ vente }, ref) => {
                     <tbody>
                       {vente?.ventes?.map((v, i) => (
                         <tr key={i}>
-                          <td>{v.qte}</td>
-                          <td>{v.produit.unite.nom}</td>
-                          <td>{v.produit.nom}</td>
-                          <td>{v.produit.pv}</td>
-                          <td>{v.produit.pv * v.qte}</td>
+                          <td className="font-bold border border-solid border-black">
+                            {v.qte}
+                          </td>
+                          <td className="font-bold border border-solid border-black">
+                            {v.produit.unite.nom}
+                          </td>
+                          <td className="font-bold border border-solid border-black">
+                            {v.produit.nom}
+                          </td>
+                          <td className="font-bold border border-solid border-black">
+                            {v.pv}
+                          </td>
+                          <td className="font-bold border border-solid border-black">
+                            {v.pv * v.qte}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

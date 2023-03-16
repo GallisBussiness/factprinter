@@ -39,6 +39,7 @@ function AddVentes({ ventes = [], setVente }) {
     control,
     handleSubmit,
     setFocus,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -74,8 +75,8 @@ function AddVentes({ ventes = [], setVente }) {
       });
     },
   });
-  const handleCreateProduct = () => {
-    createProduitModal().then(create);
+  const handleCreateProduct = (name) => {
+    createProduitModal({ name }).then(create);
   };
   const getFormErrorMessage = (name) => {
     return (
@@ -106,19 +107,36 @@ function AddVentes({ ventes = [], setVente }) {
     setCurVentes(rest);
     setTotal(getTotal([...rest]));
     setFocus("produit");
+    setValue("qte", 1);
   };
 
   const addProduct = (data) => {
     const nwd = { ...data };
-    setCurVentes((cur) => [...cur, nwd]);
-    setVente("ventes", [...curVentes, nwd]);
-    setTotal(getTotal([...curVentes, nwd]));
-    setFocus("produit");
+    const fv = curVentes.find(
+      (v) => v.produit.value._id === nwd.produit.value._id
+    );
+    if (fv) {
+      toast.current.show({
+        severity: "error",
+        summary: "Ce produit est déjà ajouté",
+        detail: "le est dans le panier !!",
+      });
+    } else {
+      setCurVentes((cur) => [...cur, nwd]);
+      setVente("ventes", [...curVentes, nwd]);
+      setTotal(getTotal([...curVentes, nwd]));
+      setFocus("produit");
+    }
   };
 
   const totalTemplate = (rowData) => {
     const { qte } = rowData;
     return +qte * +rowData.pv;
+  };
+
+  const handleChange = (p, field) => {
+    field.onChange(p);
+    setValue("pv", p.value.pv);
   };
 
   return (
@@ -140,10 +158,15 @@ function AddVentes({ ventes = [], setVente }) {
                 {...field}
                 options={produits}
                 noOptionsMessage={({ inputValue }) => (
-                  <Button onClick={handleCreateProduct}>
+                  <Button
+                    type="button"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold"
+                    onClick={() => handleCreateProduct(inputValue)}
+                  >
                     crerr {inputValue}
                   </Button>
                 )}
+                onChange={(v) => handleChange(v, field)}
                 autoFocus
               />
             )}
@@ -169,7 +192,7 @@ function AddVentes({ ventes = [], setVente }) {
         </div>
         <div className="flex flex-col space-y-1 w-full">
           <label htmlFor="pv" className="form-label">
-            pv
+            Prix
           </label>
           <Controller
             control={control}

@@ -17,7 +17,7 @@ const schema = yup
   })
   .required();
 
-function CreateProduitModal({ isOpen, onResolve, onReject }) {
+function CreateProduitModal({ isOpen, onResolve, onReject, name = "" }) {
   const [Unites, setUnites] = useState([]);
   const qkc = ["get_Unites"];
 
@@ -28,7 +28,7 @@ function CreateProduitModal({ isOpen, onResolve, onReject }) {
     },
   });
 
-  const defaultValues = { nom: "", unite: "", pv: 0 };
+  const defaultValues = { nom: name, unite: "", pv: 0 };
   const {
     control,
     handleSubmit,
