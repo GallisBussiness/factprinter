@@ -1,76 +1,122 @@
-import { Dialog } from 'primereact/dialog';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { Controller, useForm } from 'react-hook-form';
-import { create } from 'react-modal-promise'
-import { Calendar } from 'primereact/calendar';
-import { formatISO } from 'date-fns';
-import { InputNumber } from 'primereact/inputnumber';
+import { Dialog } from "primereact/dialog";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Controller, useForm } from "react-hook-form";
+import { create } from "react-modal-promise";
+import { Calendar } from "primereact/calendar";
+import { formatISO } from "date-fns";
+import { InputNumber } from "primereact/inputnumber";
 
-const schema = yup.object({
-    date: yup.string()
-    .required(),
-    montant: yup.number().required()
-  }).required();
+const schema = yup
+  .object({
+    date: yup.string().required(),
+    montant: yup.number().required(),
+  })
+  .required();
 
+function UpdateVenteDetailModal({ isOpen, onResolve, onReject, vente }) {
+  const defaultValues = { date: vente?.date, montant: vente?.montant };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues,
+  });
 
-
-
-function UpdateVenteDetailModal({ isOpen, onResolve, onReject,vente }) {
-
-  const defaultValues = {date: vente?.date, montant: vente?.montant};
-    const {control, handleSubmit,formState: { errors } } = useForm({
-        resolver: yupResolver(schema),
-      defaultValues
-    });
-
-    const getFormErrorMessage = (name) => {
-      return errors[name] && <small className="p-error">{errors[name].message}</small>
+  const getFormErrorMessage = (name) => {
+    return (
+      errors[name] && <small className="p-error">{errors[name].message}</small>
+    );
   };
 
-  const onCreate = data => {
-       const {montant} = data;
-       const avi = +montant;
-       const fd = {_id:vente?._id,...data,montant: avi}
-      onResolve(fd);
-    };
+  const onCreate = (data) => {
+    const { montant } = data;
+    const avi = +montant;
+    const fd = { _id: vente?._id, ...data, montant: avi };
+    onResolve(fd);
+  };
 
   return (
     <>
-         <Dialog header="Modifier Vendre Détail" visible={isOpen} onHide={() => onReject(false)} className="w-2/3">
-    <form  className="mb-3" onSubmit={handleSubmit(onCreate)} method="POST">
-    <div className="mb-3 flex flex-col space-y-2">
-            <label htmlFor="date" className="form-label">Date De la Vente </label>
-            <Controller control={control} name="date" render={({field}) => (
-            <Calendar id="date" value={field.value} onChange={(e) => field.onChange(formatISO(e.value,{ representation: 'date' }))} dateFormat="dd/mm/yy"  placeholder="Date De La Vente"/>
-             )}/>
-              {getFormErrorMessage('date')} 
-            </div>
-            <div className="flex flex-col space-y-1 w-full">
-            <label htmlFor="montant" className="form-label">Montant de la Vente</label>
-              <Controller control={control} name="montant" render={({field}) => (
-                  <InputNumber inputId="montant" value={field.value} onValueChange={(e) => field.onChange(e.value)} className="py-1 h-12"  />
-              )} />
-              {getFormErrorMessage('montant')} 
-            </div>
-            <div className="flex items-center justify-between mx-10 my-5">
-                <div>
-                      <button  type="submit" className="inline-block px-6 py-3 font-bold text-center
+      <Dialog
+        header="Modifier Vendre Détail"
+        visible={isOpen}
+        onHide={() => onReject(false)}
+        className="w-full md:w-2/3"
+      >
+        <form className="mb-3" onSubmit={handleSubmit(onCreate)} method="POST">
+          <div className="mb-3 flex flex-col space-y-2">
+            <label htmlFor="date" className="form-label">
+              Date De la Vente{" "}
+            </label>
+            <Controller
+              control={control}
+              name="date"
+              render={({ field }) => (
+                <Calendar
+                  id="date"
+                  value={field.value}
+                  onChange={(e) =>
+                    field.onChange(
+                      formatISO(e.value, { representation: "date" })
+                    )
+                  }
+                  dateFormat="dd/mm/yy"
+                  placeholder="Date De La Vente"
+                />
+              )}
+            />
+            {getFormErrorMessage("date")}
+          </div>
+          <div className="flex flex-col space-y-1 w-full">
+            <label htmlFor="montant" className="form-label">
+              Montant de la Vente
+            </label>
+            <Controller
+              control={control}
+              name="montant"
+              render={({ field }) => (
+                <InputNumber
+                  inputId="montant"
+                  value={field.value}
+                  onValueChange={(e) => field.onChange(e.value)}
+                  className="py-1 h-12"
+                />
+              )}
+            />
+            {getFormErrorMessage("montant")}
+          </div>
+          <div className="flex items-center justify-between mx-10 my-5">
+            <div>
+              <button
+                type="submit"
+                className="inline-block px-6 py-3 font-bold text-center
              text-white uppercase align-middle transition-all rounded-lg cursor-pointer
               bg-gradient-to-tl from-blue-700 to-blue-300 leading-pro text-xs ease-soft-in
                tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85
-                hover:shadow-soft-xs mr-2"> MODIFIER</button>
-            <button onClick={() => onReject(false)} className="inline-block px-6 py-3 font-bold text-center
+                hover:shadow-soft-xs mr-2"
+              >
+                {" "}
+                MODIFIER
+              </button>
+              <button
+                onClick={() => onReject(false)}
+                className="inline-block px-6 py-3 font-bold text-center
              text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-to-tl
               from-red-700 to-red-300 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md
-               bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs"> ANNULER</button>
-                </div>
+               bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs"
+              >
+                {" "}
+                ANNULER
+              </button>
             </div>
-        
-          </form>
-  </Dialog>
+          </div>
+        </form>
+      </Dialog>
     </>
-  )
+  );
 }
 
-export default create(UpdateVenteDetailModal)
+export default create(UpdateVenteDetailModal);

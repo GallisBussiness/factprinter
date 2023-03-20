@@ -40,7 +40,7 @@ function CreateClientModal({ isOpen, onResolve, onReject }) {
         header="Creer un client"
         visible={isOpen}
         onHide={() => onReject(false)}
-        className="w-1/2"
+        className="w-full md:w-1/2"
       >
         <form className="mb-3" onSubmit={handleSubmit(onCreate)} method="POST">
           <div className="mb-3 flex flex-col space-y-2">

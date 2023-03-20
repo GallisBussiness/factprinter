@@ -41,7 +41,7 @@ const Login = () => {
     return;
   }, [isAuth, navigate, auth]);
 
-  const defaultValues = { username: "", password: "" };
+  const defaultValues = { username: "782964310", password: "" };
   const {
     control,
     handleSubmit,

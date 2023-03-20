@@ -83,7 +83,7 @@ function CreateEntreeStockModal({ isOpen, onResolve, onReject }) {
         header="Entree de Stock"
         visible={isOpen}
         onHide={() => onReject(false)}
-        className="w-1/2"
+        className="w-full md:w-1/2"
       >
         <form className="mb-3" onSubmit={handleSubmit(onCreate)} method="POST">
           <div className="flex flex-col space-y-2 w-full">

@@ -115,7 +115,7 @@ function CreateventeModal({ isOpen, onResolve, onReject }) {
         header="Creer une Facture"
         visible={isOpen}
         onHide={() => onReject(false)}
-        className="w-2/3"
+        className="w-full md:w-2/3"
       >
         <AddVentes ventes={getValues().ventes} setVente={setValue} />
         <form className="mb-3" onSubmit={handleSubmit(onCreate)} method="POST">
