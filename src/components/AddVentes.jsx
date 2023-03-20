@@ -13,6 +13,7 @@ import Select from "react-select";
 import createProduitModal from "./modals/createProduitModal";
 import { useRef } from "react";
 import { Toast } from "primereact/toast";
+import { LoadingOverlay } from "@mantine/core";
 
 const schema = yup
   .object({
@@ -48,7 +49,7 @@ function AddVentes({ ventes = [], setVente }) {
 
   const qkp = ["get_Produits"];
 
-  useQuery(qkp, () => getProduits(), {
+  const { isLoading: isLoadingC } = useQuery(qkp, () => getProduits(), {
     onSuccess: (_) => {
       const newv = _.map((c) => ({
         value: c,
@@ -58,23 +59,26 @@ function AddVentes({ ventes = [], setVente }) {
     },
   });
 
-  const { mutate: create } = useMutation((data) => createProduit(data), {
-    onSuccess: (_) => {
-      toast.current.show({
-        severity: "success",
-        summary: "Creation Produit",
-        detail: "Création réussie !!",
-      });
-      qc.invalidateQueries(qkp);
-    },
-    onError: (_) => {
-      toast.current.show({
-        severity: "error",
-        summary: "Create Produit",
-        detail: "Creation échouée !!",
-      });
-    },
-  });
+  const { mutate: create, isLoading } = useMutation(
+    (data) => createProduit(data),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Creation Produit",
+          detail: "Création réussie !!",
+        });
+        qc.invalidateQueries(qkp);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Create Produit",
+          detail: "Creation échouée !!",
+        });
+      },
+    }
+  );
   const handleCreateProduct = (name) => {
     createProduitModal({ name }).then(create);
   };
@@ -141,6 +145,7 @@ function AddVentes({ ventes = [], setVente }) {
 
   return (
     <>
+      <LoadingOverlay visible={isLoading || isLoadingC} overlayBlur={2} />
       <form
         className="flex flex-col space-y-1 md: md:flex-row md:space-x-1 md:space-y-0"
         onSubmit={handleSubmit(addProduct)}

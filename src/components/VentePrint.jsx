@@ -53,7 +53,17 @@ export const VentePrint = forwardRef(({ vente }, ref) => {
                   </Text>
                 </div>
               </div>
-
+              <div className="flex items-center justify-between mx-20">
+                <Text size={15} fw="revert">
+                  {vente?.client?.prenom} {vente?.client?.nom},
+                </Text>
+                <Text size={15} fw="revert">
+                  Tel: {vente?.client?.tel},
+                </Text>
+                <Text size={15} fw="revert">
+                  Doit :
+                </Text>
+              </div>
               <div className="w-full flex flex-col justify-between">
                 <div className="my-5 mx-10 flex flex-col h-full">
                   <Table

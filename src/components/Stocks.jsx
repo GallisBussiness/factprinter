@@ -18,6 +18,7 @@ import {
   updateStock,
 } from "../services/stockservice";
 import { format, parseISO } from "date-fns";
+import { LoadingOverlay } from "@mantine/core";
 
 function Stocks() {
   const [selectedStocks, setSelectedStocks] = useState(null);
@@ -41,43 +42,49 @@ function Stocks() {
 
   const { data: Stocks, isLoading } = useQuery(qk, () => getStocks());
 
-  const { mutate: Entree } = useMutation((data) => EntreeStock(data), {
-    onSuccess: (_) => {
-      toast.current.show({
-        severity: "success",
-        summary: "Creation Stock",
-        detail: "Création réussie !!",
-      });
-      qc.invalidateQueries(qk);
-    },
-    onError: (_) => {
-      toast.current.show({
-        severity: "error",
-        summary: "Create Stock",
-        detail: "Creation échouée !!",
-      });
-    },
-  });
+  const { mutate: Entree, isLoading: isLoadingE } = useMutation(
+    (data) => EntreeStock(data),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Creation Stock",
+          detail: "Création réussie !!",
+        });
+        qc.invalidateQueries(qk);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Create Stock",
+          detail: "Creation échouée !!",
+        });
+      },
+    }
+  );
 
-  const { mutate: Sortie } = useMutation((data) => SortieStock(data), {
-    onSuccess: (_) => {
-      toast.current.show({
-        severity: "success",
-        summary: "Creation Stock",
-        detail: "Création réussie !!",
-      });
-      qc.invalidateQueries(qk);
-    },
-    onError: (_) => {
-      toast.current.show({
-        severity: "error",
-        summary: "Create Stock",
-        detail: "Creation échouée !!",
-      });
-    },
-  });
+  const { mutate: Sortie, isLoading: isLoadingS } = useMutation(
+    (data) => SortieStock(data),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Creation Stock",
+          detail: "Création réussie !!",
+        });
+        qc.invalidateQueries(qk);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Create Stock",
+          detail: "Creation échouée !!",
+        });
+      },
+    }
+  );
 
-  const { mutate: update } = useMutation(
+  const { mutate: update, isLoading: isLoadingU } = useMutation(
     (data) => updateStock(data._id, data.data),
     {
       onSuccess: (_) => {
@@ -146,6 +153,10 @@ function Stocks() {
   const header = renderHeader();
   return (
     <>
+      <LoadingOverlay
+        visible={isLoading || isLoadingE || isLoadingS || isLoadingU}
+        overlayBlur={2}
+      />
       <div className="flex flex-wrap mt-6 -mx-3">
         <div className="w-full px-3 mb-6 lg:mb-0 lg:flex-none">
           <div className="relative flex flex-col h-40 min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">

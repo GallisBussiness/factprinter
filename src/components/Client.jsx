@@ -2,10 +2,10 @@ import { useRef } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getClient } from "../services/clientservice";
-// import { getVentesByClient } from "../services/venteservice";
 import { AiFillPrinter } from "react-icons/ai";
 import ReactToPrint from "react-to-print";
 import FactureVente from "./FactureVente";
+import { LoadingOverlay } from "@mantine/core";
 
 function Client() {
   const { id } = useParams();
@@ -13,11 +13,11 @@ function Client() {
   const qkf = ["get_facture_by_client", id];
   const componentRef = useRef();
 
-  const { data: client } = useQuery(qk, () => getClient(id));
-  // const { data: factures } = useQuery(qkf, () => getVentesByClient(id));
+  const { data: client, isLoading } = useQuery(qk, () => getClient(id));
 
   return (
     <>
+      <LoadingOverlay visible={isLoading} overlayBlur={2} />
       <div className="flex flex-wrap mt-6 -mx-3">
         <div className="w-full px-3 mb-6 lg:mb-0 lg:flex-none">
           <div className="relative flex flex-col h-auto min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">

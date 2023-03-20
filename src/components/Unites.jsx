@@ -13,6 +13,7 @@ import createUniteModal from "./modals/createUniteModal";
 import updateUniteModal from "./modals/updateUniteModal";
 import "./datatable.css";
 import { createUnite, getUnites, updateUnite } from "../services/uniteservice";
+import { LoadingOverlay } from "@mantine/core";
 
 function Unites() {
   const [selectedUnites, setSelectedUnites] = useState(null);
@@ -36,25 +37,28 @@ function Unites() {
 
   const { data: Unites, isLoading } = useQuery(qk, () => getUnites());
 
-  const { mutate: create } = useMutation((data) => createUnite(data), {
-    onSuccess: (_) => {
-      toast.current.show({
-        severity: "success",
-        summary: "Creation Unite",
-        detail: "Création réussie !!",
-      });
-      qc.invalidateQueries(qk);
-    },
-    onError: (_) => {
-      toast.current.show({
-        severity: "error",
-        summary: "Create Unite",
-        detail: "Creation échouée !!",
-      });
-    },
-  });
+  const { mutate: create, isLoadingC } = useMutation(
+    (data) => createUnite(data),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Creation Unite",
+          detail: "Création réussie !!",
+        });
+        qc.invalidateQueries(qk);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Create Unite",
+          detail: "Creation échouée !!",
+        });
+      },
+    }
+  );
 
-  const { mutate: update } = useMutation(
+  const { mutate: update, isLoading: isLoadingU } = useMutation(
     (data) => updateUnite(data._id, data.data),
     {
       onSuccess: (_) => {
@@ -132,6 +136,10 @@ function Unites() {
   const header = renderHeader();
   return (
     <>
+      <LoadingOverlay
+        visible={isLoading || isLoadingC || isLoadingU}
+        overlayBlur={2}
+      />
       <div className="flex flex-wrap mt-6 -mx-3">
         <div className="w-full px-3 mb-6 lg:mb-0 lg:flex-none">
           <div className="relative flex flex-col h-40 min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">

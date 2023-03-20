@@ -23,7 +23,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ConfirmDelete from "./modals/ConfirmDelete";
 import { MdDelete } from "react-icons/md";
-import { ActionIcon, Button } from "@mantine/core";
+import { ActionIcon, Button, LoadingOverlay } from "@mantine/core";
 
 function Ventes() {
   const [selectedVentes, setSelectedVentes] = useState(null);
@@ -48,26 +48,29 @@ function Ventes() {
 
   const { data: Ventes, isLoading } = useQuery(qk, () => getVentes());
 
-  const { mutate: create } = useMutation((data) => createVente(data), {
-    onSuccess: (_) => {
-      toast.current.show({
-        severity: "success",
-        summary: "Creation Facture",
-        detail: "Création réussie !!",
-      });
-      qc.invalidateQueries(qk);
-      navigate(`/dashboard/ventes/${_._id}`);
-    },
-    onError: (_) => {
-      toast.current.show({
-        severity: "error",
-        summary: "Create facture",
-        detail: "Creation échouée !!",
-      });
-    },
-  });
+  const { mutate: create, isLoadingC } = useMutation(
+    (data) => createVente(data),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Creation Facture",
+          detail: "Création réussie !!",
+        });
+        qc.invalidateQueries(qk);
+        navigate(`/dashboard/ventes/${_._id}`);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Create facture",
+          detail: "Creation échouée !!",
+        });
+      },
+    }
+  );
 
-  const { mutate: update } = useMutation(
+  const { mutate: update, isLoadingU } = useMutation(
     (data) => updateVente(data._id, data.data),
     {
       onSuccess: (_) => {
@@ -88,23 +91,26 @@ function Ventes() {
     }
   );
 
-  const { mutate: deleteV } = useMutation((id) => removeVente(id), {
-    onSuccess: (_) => {
-      toast.current.show({
-        severity: "success",
-        summary: "Suppréssion Facture",
-        detail: "Suppréssion réussie !!",
-      });
-      qc.invalidateQueries(qk);
-    },
-    onError: (_) => {
-      toast.current.show({
-        severity: "error",
-        summary: "Suppréssion Facture",
-        detail: "Suppréssion échouée !!",
-      });
-    },
-  });
+  const { mutate: deleteV, isLoading: isLoadingD } = useMutation(
+    (id) => removeVente(id),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Suppréssion Facture",
+          detail: "Suppréssion réussie !!",
+        });
+        qc.invalidateQueries(qk);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Suppréssion Facture",
+          detail: "Suppréssion échouée !!",
+        });
+      },
+    }
+  );
 
   const leftToolbarTemplate = () => {
     return (
@@ -249,6 +255,10 @@ function Ventes() {
 
   return (
     <>
+      <LoadingOverlay
+        visible={isLoadingC || isLoadingU || isLoadingD}
+        overlayBlur={2}
+      />
       <div className="flex flex-wrap mt-6 -mx-3">
         <div className="w-full px-3 mb-6 lg:mb-0 lg:flex-none">
           <div className="relative flex flex-col h-40 min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">

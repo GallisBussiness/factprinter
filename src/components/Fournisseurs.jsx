@@ -18,6 +18,7 @@ import {
   updateFournisseur,
 } from "../services/fournisseurservice";
 import { useNavigate } from "react-router-dom";
+import { LoadingOverlay } from "@mantine/core";
 
 function Fournisseurs() {
   const [selectedFournisseurs, setSelectedFournisseurs] = useState(null);
@@ -50,25 +51,28 @@ function Fournisseurs() {
 
   const { data: fdata, isLoading } = useQuery(qk, () => getFournisseurs());
 
-  const { mutate: create } = useMutation((data) => createFournisseur(data), {
-    onSuccess: (_) => {
-      toast.current.show({
-        severity: "success",
-        summary: "Creation Fournisseur",
-        detail: "Création réussie !!",
-      });
-      qc.invalidateQueries(qk);
-    },
-    onError: (_) => {
-      toast.current.show({
-        severity: "error",
-        summary: "Create Fournisseur",
-        detail: "Creation échouée !!",
-      });
-    },
-  });
+  const { mutate: create, isLoading: isLoadingC } = useMutation(
+    (data) => createFournisseur(data),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Creation Fournisseur",
+          detail: "Création réussie !!",
+        });
+        qc.invalidateQueries(qk);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Create Fournisseur",
+          detail: "Creation échouée !!",
+        });
+      },
+    }
+  );
 
-  const { mutate: update } = useMutation(
+  const { mutate: update, isLoading: isLoadingU } = useMutation(
     (data) => updateFournisseur(data._id, data.data),
     {
       onSuccess: (_) => {
@@ -156,6 +160,10 @@ function Fournisseurs() {
 
   return (
     <>
+      <LoadingOverlay
+        visible={isLoading || isLoadingC || isLoadingU}
+        overlayBlur={2}
+      />
       <div className="flex flex-wrap mt-6 -mx-3">
         <div className="w-full px-3 mb-6 lg:mb-0 lg:flex-none">
           <div className="relative flex flex-col h-40 min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">

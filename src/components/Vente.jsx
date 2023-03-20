@@ -5,16 +5,18 @@ import { getVente } from "../services/venteservice";
 import { VentePrint } from "./VentePrint";
 import { AiFillPrinter } from "react-icons/ai";
 import ReactToPrint from "react-to-print";
+import { LoadingOverlay } from "@mantine/core";
 
 function Vente() {
   const { id } = useParams();
   const qk = ["get_Vente", id];
   const componentRef = useRef();
 
-  const { data: vente } = useQuery(qk, () => getVente(id));
+  const { data: vente, isLoading } = useQuery(qk, () => getVente(id));
 
   return (
     <>
+      <LoadingOverlay visible={isLoading} overlayBlur={2} />
       <div className="flex items-center justify-center my-20">
         <ReactToPrint
           trigger={() => (

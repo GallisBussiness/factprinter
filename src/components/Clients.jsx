@@ -8,7 +8,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import ModalContainer from "react-modal-promise";
 import { InputText } from "primereact/inputtext";
-import { BsEye, BsFillPenFill, BsPencilSquare } from "react-icons/bs";
+import { BsEye, BsPencilSquare } from "react-icons/bs";
 import createClientModal from "./modals/createClientModal";
 import updateClientModal from "./modals/updateClientModal";
 import "./datatable.css";

@@ -5,12 +5,16 @@ import { Controller, useForm } from "react-hook-form";
 import { create } from "react-modal-promise";
 import { Calendar } from "primereact/calendar";
 import { useState } from "react";
-import { useQuery } from "react-query";
-import { getClients } from "../../services/clientservice";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { createClient, getClients } from "../../services/clientservice";
+import createClientModal from "./createClientModal";
 import AddVentes from "../AddVentes";
 import Select from "react-select";
 import { formatISO } from "date-fns";
 import { InputNumber } from "primereact/inputnumber";
+import { useRef } from "react";
+import { Toast } from "primereact/toast";
+import { Button, LoadingOverlay } from "@mantine/core";
 
 const schema = yup
   .object({
@@ -24,7 +28,8 @@ const schema = yup
 function CreateventeModal({ isOpen, onResolve, onReject }) {
   const [clients, setClients] = useState([]);
   const qkc = ["get_Clients"];
-
+  const qc = useQueryClient();
+  const toast = useRef();
   useQuery(qkc, () => getClients(), {
     onSuccess: (_) => {
       const newcl = _.map((c) => ({
@@ -34,6 +39,27 @@ function CreateventeModal({ isOpen, onResolve, onReject }) {
       setClients(newcl);
     },
   });
+
+  const { mutate: create, isLoading } = useMutation(
+    (data) => createClient(data),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Creation Client",
+          detail: "Création réussie !!",
+        });
+        qc.invalidateQueries(qkc);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Create Client",
+          detail: "Creation échouée !!",
+        });
+      },
+    }
+  );
 
   const defaultValues = {
     date: formatISO(new Date(), { representation: "date" }),
@@ -58,6 +84,10 @@ function CreateventeModal({ isOpen, onResolve, onReject }) {
     );
   };
 
+  const handleCreateClient = () => {
+    createClientModal().then(create);
+  };
+
   const onCreate = (data) => {
     const { client, ventes, avance } = data;
     const avi = +avance;
@@ -80,6 +110,7 @@ function CreateventeModal({ isOpen, onResolve, onReject }) {
 
   return (
     <>
+      <LoadingOverlay visible={isLoading} overlayBlur={2} />
       <Dialog
         header="Creer une Facture"
         visible={isOpen}
@@ -118,7 +149,21 @@ function CreateventeModal({ isOpen, onResolve, onReject }) {
             <Controller
               control={control}
               name="client"
-              render={({ field }) => <Select {...field} options={clients} />}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  noOptionsMessage={({ inputValue }) => (
+                    <Button
+                      type="button"
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold"
+                      onClick={() => handleCreateClient()}
+                    >
+                      crerr {inputValue}
+                    </Button>
+                  )}
+                  options={clients}
+                />
+              )}
             />
             {getFormErrorMessage("client")}
           </div>
@@ -167,6 +212,7 @@ function CreateventeModal({ isOpen, onResolve, onReject }) {
           </div>
         </form>
       </Dialog>
+      <Toast ref={toast} />
     </>
   );
 }
