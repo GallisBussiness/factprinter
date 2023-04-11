@@ -133,7 +133,7 @@ function Stocks() {
   return (
     <>
       <LoadingOverlay
-        visible={isLoading || isLoadingE || isLoadingS || isLoadingU}
+        visible={isLoading || isLoadingE || isLoadingS}
         overlayBlur={2}
       />
       <div className="flex flex-wrap mt-6 -mx-3">
