@@ -188,20 +188,20 @@ function Ventes() {
     return formatDate(rowData.date);
   };
 
-  const clientTemplate = (row) => `${row.client.prenom} ${row.client.nom}`;
+  const clientTemplate = (row) => `${row?.client?.prenom} ${row?.client?.nom}`;
 
   const payeTemplate = (row) => {
     let classs =
-      row.total > row.avance
+      row.total > row?.avance
         ? "bg-amber-500 text-white font-bold px-4 py-2 rounded-md text-center"
         : "bg-green-500 text-white font-bold px-4 py-2 rounded-md text-center";
-    if (row.avance < 0) {
+    if (row?.avance < 0) {
       classs =
         "bg-red-500 text-white font-bold px-4 py-2 rounded-md text-center";
     }
     return (
       <>
-        <div className={classs}>{row.avance}</div>
+        <div className={classs}>{row?.avance}</div>
       </>
     );
   };
@@ -216,16 +216,16 @@ function Ventes() {
 
   const restantTemplate = (row) => {
     let classs =
-      row.restant > 0
+      row?.restant > 0
         ? "bg-amber-500 text-white font-bold px-4 py-2 rounded-md text-center"
         : "bg-green-500 text-white font-bold px-4 py-2 rounded-md text-center";
-    if (row.restant < 0) {
+    if (row?.restant < 0) {
       classs =
         "bg-red-500 text-white font-bold px-4 py-2 rounded-md text-center";
     }
     return (
       <>
-        <div className={classs}>{row.restant}</div>
+        <div className={classs}>{row?.restant}</div>
       </>
     );
   };

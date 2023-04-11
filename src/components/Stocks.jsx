@@ -84,27 +84,6 @@ function Stocks() {
     }
   );
 
-  const { mutate: update, isLoading: isLoadingU } = useMutation(
-    (data) => updateStock(data._id, data.data),
-    {
-      onSuccess: (_) => {
-        toast.current.show({
-          severity: "success",
-          summary: "Mise à jour Stock",
-          detail: "Mis à jour réussie !!",
-        });
-        qc.invalidateQueries(qk);
-      },
-      onError: (_) => {
-        toast.current.show({
-          severity: "error",
-          summary: "Mis à jour Stock",
-          detail: "Mis à jour échouée !!",
-        });
-      },
-    }
-  );
-
   const leftToolbarTemplate = () => {
     return (
       <div className="flex items-center justify-center space-x-2">
