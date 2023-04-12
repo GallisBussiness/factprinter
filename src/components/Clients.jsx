@@ -20,7 +20,7 @@ import {
 } from "../services/clientservice";
 import { useNavigate } from "react-router-dom";
 import ConfirmDelete from "./modals/ConfirmDelete";
-import { ActionIcon, Button } from "@mantine/core";
+import { ActionIcon, Button, LoadingOverlay } from "@mantine/core";
 import { MdDelete } from "react-icons/md";
 
 function Clients() {
@@ -54,25 +54,28 @@ function Clients() {
 
   const { data: Clients, isLoading } = useQuery(qk, () => getClients());
 
-  const { mutate: create } = useMutation((data) => createClient(data), {
-    onSuccess: (_) => {
-      toast.current.show({
-        severity: "success",
-        summary: "Creation Client",
-        detail: "Création réussie !!",
-      });
-      qc.invalidateQueries(qk);
-    },
-    onError: (_) => {
-      toast.current.show({
-        severity: "error",
-        summary: "Create Client",
-        detail: "Creation échouée !!",
-      });
-    },
-  });
+  const { mutate: create, isLoading: isLoadingC } = useMutation(
+    (data) => createClient(data),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Creation Client",
+          detail: "Création réussie !!",
+        });
+        qc.invalidateQueries(qk);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Create Client",
+          detail: "Creation échouée !!",
+        });
+      },
+    }
+  );
 
-  const { mutate: update } = useMutation(
+  const { mutate: update, isLoading: isLoadingU } = useMutation(
     (data) => updateClient(data._id, data.data),
     {
       onSuccess: (_) => {
@@ -93,23 +96,26 @@ function Clients() {
     }
   );
 
-  const { mutate: deleteV } = useMutation((id) => removeClient(id), {
-    onSuccess: (_) => {
-      toast.current.show({
-        severity: "success",
-        summary: "Suppréssion Client",
-        detail: "Suppréssion réussie !!",
-      });
-      qc.invalidateQueries(qk);
-    },
-    onError: (_) => {
-      toast.current.show({
-        severity: "error",
-        summary: "Suppréssion Client",
-        detail: "Suppréssion échouée !!",
-      });
-    },
-  });
+  const { mutate: deleteV, isLoading: isLoadingD } = useMutation(
+    (id) => removeClient(id),
+    {
+      onSuccess: (_) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Suppréssion Client",
+          detail: "Suppréssion réussie !!",
+        });
+        qc.invalidateQueries(qk);
+      },
+      onError: (_) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Suppréssion Client",
+          detail: "Suppréssion échouée !!",
+        });
+      },
+    }
+  );
 
   const handleDelete = async () => {
     const resconfirm = await ConfirmDelete();
@@ -196,6 +202,10 @@ function Clients() {
 
   return (
     <>
+      <LoadingOverlay
+        visible={isLoading || isLoadingC || isLoadingU || isLoadingD}
+        overlayBlur={2}
+      />
       <div className="flex flex-wrap mt-6 -mx-3">
         <div className="w-full px-3 mb-6 lg:mb-0 lg:flex-none">
           <div className="relative flex flex-col h-40 min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
