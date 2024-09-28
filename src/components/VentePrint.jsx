@@ -1,6 +1,8 @@
 import { Divider, Table, Text } from "@mantine/core";
 import { forwardRef } from "react";
 
+const Nformat = new Intl.NumberFormat('fr-FR');
+
 export const VentePrint = forwardRef(({ vente }, ref) => {
   const formatDate = (v) => {
     const parts = v.split("-");
@@ -27,18 +29,18 @@ export const VentePrint = forwardRef(({ vente }, ref) => {
                   Commerçant Vente de Produits Cosmétiques, Habillements, Radio
                   et Divers
                 </Text>
-                <Text fw="lighter" size={14}>
+                <Text size={14}>
                   Marché Boucotte - Ziguinchor
                 </Text>
-                <Text fw="lighter" size={14}>
-                  Tél : 77 572 73 70 - 77 917 43 30 - 77 949 88 30 - 76 419 94
+                <Text fw='bold'  size={14}>
+                  Tél : 77 572 73 70 - 77 917 43 30
                   84
                 </Text>
               </div>
 
               <div className="flex items-center justify-between my-5 mx-10">
                 {vente?.date && (
-                  <Text size={15} fw="revert">
+                  <Text size={15} fw="bold">
                     {" "}
                     Ziguinchor, le : {formatDate(vente?.date)}
                   </Text>
@@ -54,13 +56,13 @@ export const VentePrint = forwardRef(({ vente }, ref) => {
                 </div>
               </div>
               <div className="flex items-center justify-between mx-20">
-                <Text size={15} fw="revert">
+                <Text size={15} fw="bold">
                   {vente?.client?.prenom} {vente?.client?.nom},
                 </Text>
-                <Text size={15} fw="revert">
+                <Text size={15} fw="bold">
                   Tel: {vente?.client?.tel},
                 </Text>
-                <Text size={15} fw="revert">
+                <Text size={15}>
                   Doit :
                 </Text>
               </div>
@@ -72,7 +74,7 @@ export const VentePrint = forwardRef(({ vente }, ref) => {
                     fontSize="xs"
                     className="border border-solid border-black"
                   >
-                    <thead className="border border-solid border-black">
+                    <thead className="font-bold border border-solid border-black">
                       <tr>
                         <th>QTE</th>
                         <th>Unite</th>
@@ -84,7 +86,7 @@ export const VentePrint = forwardRef(({ vente }, ref) => {
                     <tbody>
                       {vente?.ventes?.map((v, i) => (
                         <tr key={i}>
-                          <td className="font-bold border border-solid border-black">
+                          <td className="font-bold border border-solid border-black text-center w-12">
                             {v.qte}
                           </td>
                           <td className="font-bold border border-solid border-black">
@@ -94,10 +96,10 @@ export const VentePrint = forwardRef(({ vente }, ref) => {
                             {v.produit.nom}
                           </td>
                           <td className="font-bold border border-solid border-black">
-                            {v.pv}
+                            {Nformat.format(v.pv)}
                           </td>
                           <td className="font-bold border border-solid border-black">
-                            {v.pv * v.qte}
+                            {Nformat.format(v.pv * v.qte)} FCFA
                           </td>
                         </tr>
                       ))}
@@ -105,12 +107,12 @@ export const VentePrint = forwardRef(({ vente }, ref) => {
                   </Table>
                 </div>
                 <div className="mx-10 text-end">
-                  <Text fw="normal" size={14}>
+                  <Text fw="bold" size={14}>
                     MONTANT TOTAL
                   </Text>
                   <Divider />
                   <Text fw="bold" size={18}>
-                    {vente?.total}
+                    {Nformat.format(vente?.total)} FCFA
                   </Text>
                 </div>
               </div>

@@ -54,7 +54,7 @@ const Dashboard = () => {
               <button className="btn btn-square btn-ghost">
                 <label
                   htmlFor="my-drawer-2"
-                  className="btn bg-white drawer-button py-0 px-2"
+                  className="btn drawer-button py-0 px-2"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
